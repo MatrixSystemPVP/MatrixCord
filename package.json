@@ -1,0 +1,46 @@
+{
+  "name": "matrixcord",
+  "version": "0.0.1",
+  "description": "Multipurpose framework for discord.js",
+  "main": "dist/index.js",
+  "types": "dist/types/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "prettier": "npx prettier --write . && npx prettier --check ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MatrixSystemPVP/MatrixCord.git"
+  },
+  "keywords": [
+    "discord",
+    "discord.js",
+    "discord.js-commando",
+    "bot",
+    "client",
+    "node",
+    "typescript",
+    "javascript"
+  ],
+  "author": "MatrixSystemPVP#1418",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MatrixSystemPVP/MatrixCord/issues"
+  },
+  "homepage": "https://github.com/MatrixSystemPVP/MatrixCord#readme",
+  "files": [
+    "package-lock.json",
+    "dist"
+  ],
+  "devDependencies": {
+    "@types/common-tags": "^1.8.1",
+    "@types/node": "^16.3.3",
+    "@types/ws": "^7.4.7",
+    "prettier": "^2.3.2",
+    "typescript": "^4.3.5"
+  },
+  "dependencies": {
+    "discord.js": "^12.5.3",
+    "discord.js-commando": "^0.12.3"
+  }
+}
