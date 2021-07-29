@@ -11,9 +11,32 @@ It's created for and used in [MatrixBot](https://matrixbot.ddns.net) a multipurp
 - All features from [discord.js-commando](https://github.com/discordjs/Commando#features)
 - Beautiful commands using Embeds
 - Changeable server specific favorite color
+- Event handler
 
 ## Installation 
-`npm install matrixcord`
+```
+npm install matrixcord
+```
+
+## Sample usage
+```js
+// Import in ES6 style or via require()
+import { MatrixClient } from 'matrixcord'
+import * as path from 'path'
+
+const client = new MatrixClient({/* Optional options */})
+
+client.once('ready', () => {
+  client.registry
+    .registerDefaultTypes() // Register Commando's default types
+    .registerDefaultGroups() // Register Commando's default groups
+  client.matrixRegistry
+    .registerDefaultCommands({/* Optional options */}) // Register default commands
+    .registerEventsIn(path.join(__dirname, 'events')) // Register all event files in the specified directory
+})
+
+client.login('BOT_TOKEN')
+```
 
 ## Documentation
 Currently none.\
