@@ -6,17 +6,17 @@ import Util from './Util'
 export class MatrixClient extends CommandoClient {
   public readonly matrixRegistry: MatrixRegistry
   private colors: Map<string, string>
-  private _defaultColor: string | null
-  private _globalColor: string = '0099ff'
+  private defaultColor: string | null
+  private globalColor: string = '0099ff'
   constructor(options?: MatrixClientOptions) {
     super(options)
     this.matrixRegistry = new MatrixRegistry(this)
     this.colors = new Map()
-    this._defaultColor = options?.color || null
+    this.defaultColor = options?.color || null
     this.setColor(options?.color)
     this.once('providerReady', () => {
       const globalColor = this.provider.get('global', 'color')
-      if (globalColor) this._globalColor = globalColor
+      if (globalColor) this.globalColor = globalColor
     })
   }
   public getColor(guildID?: string): string {
@@ -26,7 +26,7 @@ export class MatrixClient extends CommandoClient {
       const providerColor = this.provider.get(guildID, 'color')
       if (providerColor) return providerColor
     }
-    return this._globalColor
+    return this.globalColor
   }
   public getColorFromMsg(msg: CommandoMessage): string {
     if (msg.guild) return this.getColor(msg.guild.id)
@@ -44,10 +44,10 @@ export class MatrixClient extends CommandoClient {
       }
     } else {
       if (color === undefined || color === null) {
-        this._globalColor = this._defaultColor || '#0099ff'
+        this.globalColor = this.defaultColor || '#0099ff'
         if (this.provider) this.provider.remove('global', 'color')
       } else {
-        this._globalColor = color
+        this.globalColor = color
         if (this.provider) this.provider.set('global', 'color', color)
       }
     }
