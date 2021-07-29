@@ -1,3 +1,4 @@
+import { ClientEvents } from 'discord.js'
 import { CommandoClientOptions } from 'discord.js-commando'
 import { MatrixRegistry } from './registry'
 
@@ -33,4 +34,10 @@ export interface DefaultCommands {
   prefix?: boolean
   unknownCommand?: boolean
   color?: boolean
+}
+
+export interface EventInfo {
+  id: string
+  name: keyof ClientEvents
+  once?: boolean
 }

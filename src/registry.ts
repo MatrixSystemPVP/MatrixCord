@@ -1,5 +1,8 @@
+import { Collection } from 'discord.js'
 import { MatrixClient } from './client'
 import { DefaultCommands } from './types'
+import { MatrixEvent } from './eventBase'
+import Util from './Util'
 import DisableCommandCommand from './commands/disable'
 import EnableCommandCommand from './commands/enable'
 import ListGroupsCommand from './commands/groups'
@@ -15,8 +18,12 @@ import ColorCommand from './commands/color'
 
 export class MatrixRegistry {
   public readonly client: MatrixClient
+  public readonly events: Collection<string, MatrixEvent>
+  private registeredEvents: string[]
   constructor(client: MatrixClient) {
     this.client = client
+    this.events = new Collection()
+    this.registeredEvents = []
   }
   public registerDefaultCommands(commands?: DefaultCommands): MatrixRegistry {
     const { registry } = this.client
@@ -77,5 +84,42 @@ export class MatrixRegistry {
     }
     if (commands?.color === undefined || commands.color) registry.registerCommand(ColorCommand)
     return this
+  }
+  public registerEvent<A extends MatrixEvent>(matrixEvent: new (client: MatrixClient) => A): MatrixRegistry {
+    const event = new matrixEvent(this.client)
+    if (this.events.has(event.id)) throw new Error(`An event with the id "${event.id}" already exist.`)
+    this.events.set(event.id, event)
+    if (!this.registeredEvents.includes(event.name)) {
+      this.registeredEvents.push(event.name)
+      this.client.on(event.name, (...args) => {
+        const events = this.events.filter((e) => e.name === event.name)
+        events.forEach((e) => {
+          if (e.once) {
+            e.run(...args)
+            this.events.delete(e.id)
+          } else e.run(...args)
+        })
+      })
+    }
+    this.client.emit('debug', `Registered event ${event.name}:${event.id}.`)
+    return this
+  }
+  public registerEvents<A extends MatrixEvent>(matrixEvents: Array<new (client: MatrixClient) => A>): MatrixRegistry {
+    if (!Array.isArray(matrixEvents)) throw new TypeError('Events must be an Array.')
+    matrixEvents.forEach((event) => this.registerEvent(event))
+    return this
+  }
+  public registerEventsIn(path: string): MatrixRegistry {
+    if (typeof path !== 'string') throw new TypeError('Path must be a string.')
+    const files = Util.traverseDir(path)
+    const events: Array<new (client: MatrixClient) => MatrixEvent> = []
+    files.forEach((file) => {
+      if (!file.endsWith('.js')) return this.client.emit('debug', `Skipping invalid event file: ${file}.`)
+      const event = require(file)
+      if (typeof event === 'object' && event.default !== undefined) events.push(event.default)
+      else if (typeof event === 'function' && event.prototype instanceof MatrixEvent) events.push(event)
+      else throw new Error(`Invalid event structure in file: "${file}". Did you export the event correctly?`)
+    })
+    return this.registerEvents(events)
   }
 }
