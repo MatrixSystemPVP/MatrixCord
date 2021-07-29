@@ -2,12 +2,6 @@ import { ClientEvents } from 'discord.js'
 import { CommandoClientOptions } from 'discord.js-commando'
 import { MatrixRegistry } from './registry'
 
-declare module 'discord.js' {
-  export interface ClientEvents {
-    matrixDebug: [string]
-  }
-}
-
 declare module 'discord.js-commando' {
   export class Client {
     public readonly matrixRegistry: MatrixRegistry
