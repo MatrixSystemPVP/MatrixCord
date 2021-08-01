@@ -39,5 +39,5 @@ client.login('BOT_TOKEN')
 ```
 
 ## Documentation
-Currently none.\
+[View the docs here.](https://matrixsystempvp.github.io/MatrixCord/)\
 See the [discord.js-commando documentation](https://discord.js.org/#/docs/commando) and [discord.js documentation](https://discord.js.org/#/docs) as well.
