@@ -6,7 +6,9 @@
   "types": "dist/types/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "prettier": "npx prettier --write . && npx prettier --check ."
+    "prettier": "npx prettier --write . && npx prettier --check .",
+    "docs:dev": "vuepress dev docs --no-cache",
+    "docs:build": "vuepress build docs --no-cache"
   },
   "repository": {
     "type": "git",
@@ -36,8 +38,14 @@
     "@types/common-tags": "^1.8.1",
     "@types/node": "^16.3.3",
     "@types/ws": "^7.4.7",
+    "@vuepress/plugin-back-to-top": "^1.8.2",
+    "@vuepress/plugin-medium-zoom": "^1.8.2",
+    "markdown-it-replace-it": "^1.0.0",
+    "markdown-it-replace-link": "^1.1.0",
     "prettier": "^2.3.2",
-    "typescript": "^4.3.5"
+    "typescript": "^4.3.5",
+    "vuepress": "^1.8.2",
+    "vuepress-plugin-code-copy": "^1.0.6"
   },
   "dependencies": {
     "discord.js": "^12.5.3",

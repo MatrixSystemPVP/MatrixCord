@@ -1,0 +1,20 @@
+div[class*="language-"] .code-copy
+  svg
+    z-index 2
+  span
+    color #27b1ff
+
+.badge
+  &.readonly
+    background-color $badgeReadonlyColor !important
+  &.abstract
+    background-color $badgeAbstractColor !important
+  &.static
+    background-color $badgeStaticColor !important
+
+// narrow mobile
+@media (max-width: $MQMobileNarrow)
+  .theme-code-group__nav
+    margin-left -1.5rem
+    margin-right -1.5rem
+    border-radius 0 !important
