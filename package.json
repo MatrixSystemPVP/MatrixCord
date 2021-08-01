@@ -29,7 +29,7 @@
   "bugs": {
     "url": "https://github.com/MatrixSystemPVP/MatrixCord/issues"
   },
-  "homepage": "https://github.com/MatrixSystemPVP/MatrixCord#readme",
+  "homepage": "https://matrixsystempvp.github.io/MatrixCord/",
   "files": [
     "package-lock.json",
     "dist"
